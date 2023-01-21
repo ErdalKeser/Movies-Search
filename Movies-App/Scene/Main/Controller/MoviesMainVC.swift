@@ -7,62 +7,86 @@
 
 import UIKit
 
-//protocol ToGoData: AnyObject {
-//
-//    func toGoSearchText(searchText: String)
-//}
-protocol MoviesViewInterFace: AnyObject {
+protocol MoviesMainVCInterface: AnyObject {
     
-    func reloadData()
+    func configureTableView()
+    func reloadTableView()
+    
+//    func gidilecek(veri: MoviesDetailModel)
+//    func navigateToDetailVC(movie: MoviesDetailModel)
+//    func startActivityIndicator()
+//    func stopActivityIndicator()
+    
 }
 
-class MoviesMainVC: UIViewController {
+final class MoviesMainVC: UIViewController {
+    
+    private let viewModel = MainViewModel()
+    var detailModel = MoviesDetailViewModel()
+    
     @IBOutlet weak var moviesTableView: UITableView!
     @IBOutlet weak var moviesSearch: UISearchBar!
-    
+
     var movieTitle: String?
-    
-    private lazy var mvm: MainViewModel = MainViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        moviesTableView.dataSource = self
-        moviesTableView.delegate = self
-        moviesTableView.register(UINib(nibName: "MoviesTableViewCell", bundle: nil), forCellReuseIdentifier: "moviesCell")
-        title = "Movies"
-        mvm.view = self
+        
+        viewModel.view = self
+        viewModel.viewDidLoad()
         
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let indeks = sender as? Int
-        
-        let toGoDetailVC = segue.destination as! MoviesDetailVC
-        toGoDetailVC.incomingMoviePoster = mvm.movieListe[indeks!].Poster
-        toGoDetailVC.incomingMovieName = mvm.movieListe[indeks!].Title
-        toGoDetailVC.incomingMovieType = mvm.movieListe[indeks!].Type
-        toGoDetailVC.incomingMoviePlot = mvm.movieListe[indeks!].Year
-        
-    }
+    
     @IBAction func searchPressed(_ sender: UIButton) {
         
-        mvm.getDataResponse(search: moviesSearch.text!)
+        viewModel.getMovies(search: moviesSearch.text!)
+        
         
     }
     
 }
-extension MoviesMainVC: UITableViewDataSource {
+extension MoviesMainVC: MoviesMainVCInterface {
+    
+    func configureTableView() {
+        moviesTableView.delegate = self
+        moviesTableView.dataSource = self
+        moviesTableView.register(UINib(nibName: "MoviesTableViewCell", bundle: nil), forCellReuseIdentifier: "moviesCell")
+        title = "Filmler"
+    }
+    
+    func reloadTableView() {
+        moviesTableView.reloadOnMainThread()
+    }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        let gidilecekvc = segue.destination as! MoviesDetailVC
+//        gidilecekvc.movie = viewModel.movieDetailsData
+//
+//    }
+    
+//    func gidilecek(veri: MoviesDetailModel){
+//
+//        DispatchQueue.main.async {
+//            MoviesDetailVC().movie = veri
+//        }
+//    }
+        
+}
+
+extension MoviesMainVC: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mvm.movieListe.count
+        return viewModel.movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = moviesTableView.dequeueReusableCell(withIdentifier:"moviesCell", for: indexPath) as! MoviesTableViewCell
         
-        cell.movieName.text = mvm.movieListe[indexPath.row].Title
-        cell.movieType.text = mvm.movieListe[indexPath.row].Type
-        cell.moviePlot.text = mvm.movieListe[indexPath.row].Year
-        if let incomindata =  mvm.movieListe[indexPath.row].Poster {
+        cell.movieName.text = viewModel.movies[indexPath.row].Title
+        cell.movieType.text = viewModel.movies[indexPath.row].Type
+        cell.moviePlot.text = viewModel.movies[indexPath.row].Year
+        if let incomindata =  viewModel.movies[indexPath.row].Poster {
             if let url = URL(string: incomindata){
                 
                 DispatchQueue.global().async {
@@ -78,18 +102,21 @@ extension MoviesMainVC: UITableViewDataSource {
         return cell
     }
     
-}
-extension MoviesMainVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+//        viewModel.getDetail(id: viewModel.movies[indexPath.row].imdbID!)
+//        detailModel.getDetail(id: viewModel.movies[indexPath.row].imdbID!)
+        
+        detailModel.id = viewModel.movies[indexPath.row].imdbID!
         performSegue(withIdentifier: "toGoDetail", sender: indexPath.row)
+      
+        
+//        viewModel.getDetail(id: viewModel.movies[indexPath.item].imdbID!)
         
     }
 }
-extension MoviesMainVC: MoviesViewInterFace {
-    func reloadData() {
-        moviesTableView.reloadData()
-    }
     
-}
+    
+
+
 
