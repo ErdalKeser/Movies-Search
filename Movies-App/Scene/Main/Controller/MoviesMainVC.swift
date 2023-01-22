@@ -28,6 +28,7 @@ final class MoviesMainVC: UIViewController {
     @IBOutlet weak var moviesSearch: UISearchBar!
 
     var movieTitle: String?
+    var ahmet:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
