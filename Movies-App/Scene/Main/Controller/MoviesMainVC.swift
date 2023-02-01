@@ -11,11 +11,9 @@ protocol MoviesMainVCInterface: AnyObject {
     
     func configureTableView()
     func reloadTableView()
-    
-//    func gidilecek(veri: MoviesDetailModel)
-//    func navigateToDetailVC(movie: MoviesDetailModel)
-//    func startActivityIndicator()
-//    func stopActivityIndicator()
+    func alert()
+    func startActivityIndicator()
+    func stopActivityIndicator()
     
 }
 
@@ -26,15 +24,16 @@ final class MoviesMainVC: UIViewController {
     
     @IBOutlet weak var moviesTableView: UITableView!
     @IBOutlet weak var moviesSearch: UISearchBar!
-
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
+    
     var movieTitle: String?
-    var ahmet:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         viewModel.view = self
         viewModel.viewDidLoad()
+        indicator.isHidden = true
         
     }
     
@@ -43,11 +42,29 @@ final class MoviesMainVC: UIViewController {
         
         viewModel.getMovies(search: moviesSearch.text!)
         
-        
     }
     
 }
 extension MoviesMainVC: MoviesMainVCInterface {
+    func alert() {
+        let alert = UIAlertController(title: "Alert", message: "Movie not found", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func startActivityIndicator() {
+        indicator.isHidden = false
+        indicator.startAnimating()
+    }
+    
+    func stopActivityIndicator() {
+        DispatchQueue.main.async {
+            self.indicator.stopAnimating()
+            self.indicator.isHidden = true
+        }
+        
+    }
+    
     
     func configureTableView() {
         moviesTableView.delegate = self
@@ -59,20 +76,12 @@ extension MoviesMainVC: MoviesMainVCInterface {
     func reloadTableView() {
         moviesTableView.reloadOnMainThread()
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let gidilecekvc = segue.destination as! MoviesDetailVC
+        gidilecekvc.viewModel.id = viewModel.id
+
+    }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let gidilecekvc = segue.destination as! MoviesDetailVC
-//        gidilecekvc.movie = viewModel.movieDetailsData
-//
-//    }
-    
-//    func gidilecek(veri: MoviesDetailModel){
-//
-//        DispatchQueue.main.async {
-//            MoviesDetailVC().movie = veri
-//        }
-//    }
-        
 }
 
 extension MoviesMainVC: UITableViewDelegate, UITableViewDataSource {
@@ -105,14 +114,9 @@ extension MoviesMainVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-//        viewModel.getDetail(id: viewModel.movies[indexPath.row].imdbID!)
-//        detailModel.getDetail(id: viewModel.movies[indexPath.row].imdbID!)
-        
-        detailModel.id = viewModel.movies[indexPath.row].imdbID!
+        guard let id = viewModel.movies[indexPath.row].imdbID else { return }
+        viewModel.id = id
         performSegue(withIdentifier: "toGoDetail", sender: indexPath.row)
-      
-        
-//        viewModel.getDetail(id: viewModel.movies[indexPath.item].imdbID!)
         
     }
 }

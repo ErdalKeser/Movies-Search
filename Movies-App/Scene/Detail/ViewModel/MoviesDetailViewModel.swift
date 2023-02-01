@@ -7,28 +7,22 @@
 
 import Foundation
 
+
 protocol DetailViewModelInterface {
     
-    var view: MoviesDetailVCInterface? { get set }
-//    func viewDidLoad()
     func getDetail()
+    var delegate: MoviesDetailViewModelDelegate? { get set } 
 }
 
 final class MoviesDetailViewModel {
     
-    weak var view: MoviesDetailVCInterface?
+    weak var delegate: MoviesDetailViewModelDelegate?
     var service = MovieService()
     var incomingData:  MoviesDetailModel?
     var id: String?
     
-    
 }
 extension MoviesDetailViewModel: DetailViewModelInterface{
-    
-    func viewDidLoad() {
-       
-        
-    }
     
     func getDetail(){
         
@@ -38,22 +32,7 @@ extension MoviesDetailViewModel: DetailViewModelInterface{
             guard let self = self else { return }
             guard let returnedDetail = returnedDetail else { return }
             self.incomingData = returnedDetail
-            
-            self.view?.configureTypeLabel()
-            self.view?.configurePosterImageView()
-            self.view?.configureOverviewLabel()
-            self.view?.configureTitleLabel()
-            
-            
-            
-            
-            print(returnedDetail)
-            
-            
-            
-            
+            self.delegate?.showDetails()
         }
-    
-    
-}
+    }
 }

@@ -35,17 +35,23 @@
                                 <rect key="frame" x="0.0" y="262" width="414" height="594"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="9rv-KT-ZlL">
+                                <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
+                                <color key="color" red="0.55686277149999996" green="0.1607843041" blue="0.14509806040000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="jFb-XP-Fp4" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Gku-1Y-ULP"/>
                             <constraint firstItem="fCH-My-ukS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Ih6-BH-aB3"/>
+                            <constraint firstItem="9rv-KT-ZlL" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="PFF-Kc-c84"/>
                             <constraint firstItem="Xbi-1N-eHu" firstAttribute="top" secondItem="fCH-My-ukS" secondAttribute="bottom" constant="10" id="Pgy-F1-2y2"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Xbi-1N-eHu" secondAttribute="trailing" id="YhI-rQ-ao0"/>
                             <constraint firstItem="jFb-XP-Fp4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="eMt-BL-tCh"/>
                             <constraint firstItem="fCH-My-ukS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="f3t-X7-fBv"/>
                             <constraint firstItem="Xbi-1N-eHu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="oHG-2H-YfR"/>
+                            <constraint firstItem="9rv-KT-ZlL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="pgX-Ew-anY"/>
                             <constraint firstAttribute="bottom" secondItem="jFb-XP-Fp4" secondAttribute="bottom" constant="40" id="rGf-sd-cBC"/>
                             <constraint firstItem="fCH-My-ukS" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="sIV-cb-uS1"/>
                             <constraint firstItem="jFb-XP-Fp4" firstAttribute="top" secondItem="Xbi-1N-eHu" secondAttribute="bottom" constant="30" id="vOi-fV-P8q"/>
@@ -53,6 +59,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="Ym2-Vn-Hyh"/>
                     <connections>
+                        <outlet property="indicator" destination="9rv-KT-ZlL" id="3Pj-Gf-K3J"/>
                         <outlet property="moviesSearch" destination="fCH-My-ukS" id="h3l-rc-xpG"/>
                         <outlet property="moviesTableView" destination="jFb-XP-Fp4" id="nul-ht-GWm"/>
                         <segue destination="77r-1i-smV" kind="show" identifier="toGoDetail" id="rrN-Bt-eSM"/>

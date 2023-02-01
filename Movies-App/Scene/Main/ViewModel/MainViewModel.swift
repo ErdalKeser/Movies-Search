@@ -15,7 +15,6 @@ protocol MainViewModelInterface {
     func getMovies(search:String)
 }
 
-
 final class MainViewModel {
     
     var movieDetailsData: MoviesDetailModel?
@@ -23,8 +22,7 @@ final class MainViewModel {
     weak var view: MoviesMainVCInterface?
     private let service = MovieService()
     var movies: [MoviesProperties] = []
-//    private var search: String = ""
-    
+    var id: String?
     
 }
 extension MainViewModel: MainViewModelInterface {
@@ -32,9 +30,11 @@ extension MainViewModel: MainViewModelInterface {
     func viewDidLoad() {
         view?.configureTableView()
         
-        
     }
     func getMovies(search: String) {
+        DispatchQueue.main.async {
+            self.view?.startActivityIndicator()
+        }
         
         service.downloadMovies(search: search) { [weak self] returnedMovies in
             guard let self = self else { return }
@@ -43,29 +43,20 @@ extension MainViewModel: MainViewModelInterface {
             
             self.movies.append(contentsOf: returnedMovies)
             
-            print(returnedMovies)
+            if returnedMovies == nil {
+                self.view?.alert()
+            }
+            if returnedMovies != nil {
+                self.view?.stopActivityIndicator()
+                
+            }
             
             self.view?.reloadTableView()
-       
+            
         }
-    
+        
     }
-//    func getDetail(id: String){
-//        service.downloadDetail(id: id) { [weak self] returnedDetail in
-//            guard let self = self else { return }
-//            guard let returnedDetail = returnedDetail else { return }
-//            print(returnedDetail)
-//            self.movieDetailsData = returnedDetail
-//            self.view?.gidilecek(veri: returnedDetail)
-//            self.view?.reloadTableView()
-//            
-//            
-////            self.view?.navigateToDetailVC(movie: returnedDetail)
-//            
-//            
-//        }
-//    }
-//    
+    
 }
 
 

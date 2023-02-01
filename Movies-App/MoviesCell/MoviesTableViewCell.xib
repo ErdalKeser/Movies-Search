@@ -23,12 +23,12 @@
                             <constraint firstAttribute="height" constant="180" id="Uq8-gv-ZeT"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRh-kv-YK2">
-                        <rect key="frame" x="170" y="10" width="59" height="30"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="13" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRh-kv-YK2">
+                        <rect key="frame" x="170" y="10" width="145" height="30"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="30" id="kOn-im-CYk"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -49,6 +49,7 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="fRh-kv-YK2" secondAttribute="trailing" constant="5" id="2Do-T1-lNw"/>
                     <constraint firstItem="AlS-uu-NNk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="CXd-pP-3TX"/>
                     <constraint firstAttribute="trailing" secondItem="8IF-3X-ZZu" secondAttribute="trailing" constant="10" id="Uqf-gQ-uw8"/>
                     <constraint firstItem="fRh-kv-YK2" firstAttribute="leading" secondItem="AlS-uu-NNk" secondAttribute="trailing" constant="10" id="Yrb-aC-0Ow"/>
